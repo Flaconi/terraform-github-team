@@ -110,13 +110,13 @@ The following input variables are required:
 
 ### <a name="input_token"></a> [token](#input\_token)
 
-Description: Github token to use when adding membership
+Description: Github token to be used for given organization to manage teams and their membership for.
 
 Type: `string`
 
 ### <a name="input_owner"></a> [owner](#input\_owner)
 
-Description: Github organization name
+Description: Github organization name to manage teams and their membership for.
 
 Type: `string`
 
@@ -148,7 +148,6 @@ No optional inputs.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_local"></a> [local](#output\_local) | n/a |
 | <a name="output_teams"></a> [teams](#output\_teams) | GitHub teams. |
 
 <!-- TFDOCS_OUTPUTS_END -->
