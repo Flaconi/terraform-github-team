@@ -1,5 +1,5 @@
 module "team" {
-  for_each   = local.teams
+  for_each = local.teams
 
   source = "./modules/team"
 
@@ -11,7 +11,7 @@ module "team" {
 }
 
 module "membership" {
-  for_each   = { for name, team in module.team : name => {
+  for_each = { for name, team in module.team : name => {
     team_id = team.id
     members = local.teams[name].members
     role    = "member"
