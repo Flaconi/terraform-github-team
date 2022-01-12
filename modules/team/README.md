@@ -32,7 +32,7 @@ No modules.
 | <a name="input_name"></a> [name](#input\_name) | GitHub team name | `string` | n/a | yes |
 | <a name="input_description"></a> [description](#input\_description) | GitHub team description | `string` | `""` | no |
 | <a name="input_privacy"></a> [privacy](#input\_privacy) | GitHub team privacy (closed / secret) | `string` | `"closed"` | no |
-| <a name="input_parent_name"></a> [parent\_name](#input\_parent\_name) | GitHub team parent team name | `string` | `null` | no |
+| <a name="input_parent_name"></a> [parent\_name](#input\_parent\_name) | The parent team name (must exist) | `string` | `null` | no |
 | <a name="input_members"></a> [members](#input\_members) | GitHub team members | `list(string)` | `[]` | no |
 
 ## Outputs
