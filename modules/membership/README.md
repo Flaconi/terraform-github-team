@@ -29,7 +29,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_team_id"></a> [team\_id](#input\_team\_id) | GitHub team ID | `number` | n/a | yes |
-| <a name="input_members"></a> [members](#input\_members) | GitHub team members (list of usernames) | `list(string)` | `[]` | no |
+| <a name="input_members"></a> [members](#input\_members) | GitHub team members (list of GitHub usernames) | `list(string)` | `[]` | no |
 | <a name="input_role"></a> [role](#input\_role) | GitHub team members role (member or maintainer) | `string` | `"member"` | no |
 
 ## Outputs
