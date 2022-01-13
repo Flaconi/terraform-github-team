@@ -31,7 +31,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Test
+      - name: "Test 01"
         run: |
           retry() {
             for n in $(seq ${RETRIES}); do
@@ -45,6 +45,7 @@ jobs:
             done;
             return 1;
           }
-          retry make test
+          cd tests
+          retry make test-01 GITHUB_ORG=flaconi-ci-github-teams GITHUB_TOKEN=${{ secrets.GH_FL_CI_TEAMS_TOKEN }}
         env:
-          RETRIES: 20
+          RETRIES: 5
