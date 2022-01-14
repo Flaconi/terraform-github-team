@@ -119,7 +119,7 @@ test-02:
 		exit 1; \
 	fi;
 	@if ! $(MAKE) --no-print-directory _apply_plan \
-		PARALLELISM=10 \
+		PARALLELISM=100 \
 		VAR_FILE=tests/test-02.tfvars \
 		GITHUB_ORG=$(GITHUB_ORG) \
 		GITHUB_TOKEN=$(GITHUB_TOKEN); then
