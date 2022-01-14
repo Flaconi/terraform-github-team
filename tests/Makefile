@@ -78,7 +78,10 @@ test-01:
 		GITHUB_TOKEN=$(GITHUB_TOKEN); then
 		exit 1; \
 	fi;
-	@if ! $(MAKE) --no-print-directory _apply_plan; then \
+	@if ! $(MAKE) --no-print-directory _apply_plan \
+		VAR_FILE=tests/test-01.tfvars \
+		GITHUB_ORG=$(GITHUB_ORG) \
+		GITHUB_TOKEN=$(GITHUB_TOKEN); then
 		exit 1; \
 	fi;
 	@if ! $(MAKE) --no-print-directory _destroy \
@@ -115,7 +118,11 @@ test-02:
 		GITHUB_TOKEN=$(GITHUB_TOKEN); then
 		exit 1; \
 	fi;
-	@if ! $(MAKE) --no-print-directory _apply_plan PARALLELISM=100; then \
+	@if ! $(MAKE) --no-print-directory _apply_plan \
+		PARALLELISM=10 \
+		VAR_FILE=tests/test-02.tfvars \
+		GITHUB_ORG=$(GITHUB_ORG) \
+		GITHUB_TOKEN=$(GITHUB_TOKEN); then
 		exit 1; \
 	fi;
 	@if ! $(MAKE) --no-print-directory _destroy \
@@ -145,9 +152,9 @@ _destroy:
 	@echo "# terraform destroy"
 	@echo "# --------------------------------------------------------------------------------"
 	function cleanUp() {
-		$(MAKE) --no-print-directory _clean_init
-		$(MAKE) --no-print-directory _clean_plan
 		$(MAKE) --no-print-directory _clean_apply
+		$(MAKE) --no-print-directory _clean_plan
+		$(MAKE) --no-print-directory _clean_init
 	}
 	mkdir -p $(CURRENT_DIR)../.terraform.d
 	trap cleanUp ERR
@@ -164,7 +171,8 @@ _destroy:
 		apk add libc6-compat \
 		&& addgroup -g $(CURRENT_GID) user \
 		&& adduser -h /data -G user -u $(CURRENT_UID) -D -H user \
-		&& su -p -m user -c 'yes yes | terraform destroy \
+		&& su -p -m user -c 'terraform destroy \
+			-auto-approve \
 			-var-file=$(VAR_FILE) \
 			-var \"owner=$(GITHUB_ORG)\" \
 			-var \"token=$(GITHUB_TOKEN)\" \
@@ -175,15 +183,21 @@ _destroy:
 ### Terraform apply planfile
 ###
 .PHONY: _apply_plan
+_apply_plan: _check_gh_organization
+_apply_plan: _check_gh_token
 _apply_plan:
 	@echo
 	@echo "# --------------------------------------------------------------------------------"
 	@echo "# terraform apply $(PLAN_FILE)"
 	@echo "# --------------------------------------------------------------------------------"
 	function cleanUp() {
-		$(MAKE) --no-print-directory _clean_init
-		$(MAKE) --no-print-directory _clean_plan
+		$(MAKE) --no-print-directory _destroy \
+			VAR_FILE=$(VAR_FILE) \
+			GITHUB_ORG=$(GITHUB_ORG) \
+			GITHUB_TOKEN=$(GITHUB_TOKEN)
 		$(MAKE) --no-print-directory _clean_apply
+		$(MAKE) --no-print-directory _clean_plan
+		$(MAKE) --no-print-directory _clean_init
 	}
 	mkdir -p $(CURRENT_DIR)../.terraform.d
 	trap cleanUp ERR
@@ -200,7 +214,10 @@ _apply_plan:
 		apk add libc6-compat \
 		&& addgroup -g $(CURRENT_GID) user \
 		&& adduser -h /data -G user -u $(CURRENT_UID) -D -H user \
-		&& su -p -m user -c 'terraform apply -lock-timeout=$(LOCK_TIMEOUT) -parallelism=$(PARALLELISM) $(PLAN_FILE)'"
+		&& su -p -m user -c 'terraform apply \
+			-auto-approve \
+			-lock-timeout=$(LOCK_TIMEOUT) \
+			-parallelism=$(PARALLELISM) $(PLAN_FILE)'"
 
 
 ###
@@ -215,8 +232,8 @@ _plan:
 	@echo "# terraform plan"
 	@echo "# --------------------------------------------------------------------------------"
 	function cleanUp() {
-		$(MAKE) --no-print-directory _clean_init
 		$(MAKE) --no-print-directory _clean_plan
+		$(MAKE) --no-print-directory _clean_init
 	}
 	mkdir -p $(CURRENT_DIR)../.terraform.d
 	trap cleanUp ERR
