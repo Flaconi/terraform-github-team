@@ -48,7 +48,7 @@ jobs:
           cd tests
           retry make test-01 GITHUB_ORG=flaconi-ci-github-teams GITHUB_TOKEN=${{ secrets.GH_FL_CI_TEAMS_TOKEN }}
         env:
-          RETRIES: 5
+          RETRIES: 1
   # ------------------------------------------------------------
   # Job-2
   # ------------------------------------------------------------
@@ -80,4 +80,4 @@ jobs:
           cd tests
           retry make test-02 GITHUB_ORG=flaconi-ci-github-teams GITHUB_TOKEN=${{ secrets.GH_FL_CI_TEAMS_TOKEN }}
         env:
-          RETRIES: 5
+          RETRIES: 1
