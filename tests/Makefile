@@ -73,7 +73,7 @@ test-01:
 		exit 1; \
 	fi;
 	@if ! $(MAKE) --no-print-directory _plan \
-		VAR_FILE=tests/test-02.tfvars \
+		VAR_FILE=tests/test-01.tfvars \
 		GITHUB_ORG=$(GITHUB_ORG) \
 		GITHUB_TOKEN=$(GITHUB_TOKEN); then
 		exit 1; \
