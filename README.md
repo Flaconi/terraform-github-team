@@ -14,7 +14,11 @@ You can however also just use the bundled sub-modules and wrap your own root mod
 
 ## Important
 
-This module will not work when using `terraform apply -parallelism=1`. It must be run in parallel (as is by default).
+The following must be taken into consideration for initial creation or on re-creation (update operations are not affected):
+
+1. This module will not work when using `terraform apply -parallelism=1`. It must be run in parallel (as is by default).
+2. When you have a lot of teams (>50) including multiple nesting levels (>2), it is strongly advised to bump parallelism to a higher value: `terraform apply -parallelism=50` to avoid child teams not being able to find parents.
+3. If an increase in parallelism still does not help, you should first define and apply parent teams and then continue with each level. Alternatively you can apply multiple times until it will eventually succeed.
 
 
 ## Features

@@ -26,6 +26,7 @@ TF_VERSION   = 1.0.11
 LOCK_TIMEOUT = 60s
 LOCK_FILE    = .terraform.lock.hcl
 PLAN_FILE    = .terraform.plan
+PARALLELISM  = 10   # Terraform uses 10 Threads by default (increase for huge number of teams)
 
 
 # -------------------------------------------------------------------------------------------------
@@ -68,17 +69,64 @@ test-01:
 	@echo "###"
 	@echo "####################################################################################################"
 	@echo "####################################################################################################"
-	@$(MAKE) --no-print-directory _init
-	@$(MAKE) --no-print-directory _plan \
+	@if ! $(MAKE) --no-print-directory _init; then \
+		exit 1; \
+	fi;
+	@if ! $(MAKE) --no-print-directory _plan \
+		VAR_FILE=tests/test-02.tfvars \
+		GITHUB_ORG=$(GITHUB_ORG) \
+		GITHUB_TOKEN=$(GITHUB_TOKEN); then
+		exit 1; \
+	fi;
+	@if ! $(MAKE) --no-print-directory _apply_plan; then \
+		exit 1; \
+	fi;
+	@if ! $(MAKE) --no-print-directory _destroy \
 		VAR_FILE=tests/test-01.tfvars \
 		GITHUB_ORG=$(GITHUB_ORG) \
-		GITHUB_TOKEN=$(GITHUB_TOKEN)
-	@$(MAKE) --no-print-directory _apply_plan
-	@$(MAKE) --no-print-directory _destroy \
+		GITHUB_TOKEN=$(GITHUB_TOKEN); then \
+		exit 1; \
+	fi;
+	@if ! $(MAKE) --no-print-directory _clean_all; then \
+		exit 1; \
+	fi;
+
+
+###
+### Create plan file and apply, then destroy
+###
+.PHONY: test-02
+test-02: _check_gh_organization
+test-02: _check_gh_token
+test-02:
+	@echo "####################################################################################################"
+	@echo "####################################################################################################"
+	@echo "###"
+	@echo "### TEST 02 (>100 Teams PARALLELISM=100)"
+	@echo "###"
+	@echo "####################################################################################################"
+	@echo "####################################################################################################"
+	@if ! $(MAKE) --no-print-directory _init; then \
+		exit 1; \
+	fi;
+	@if ! $(MAKE) --no-print-directory _plan \
+		VAR_FILE=tests/test-02.tfvars \
+		GITHUB_ORG=$(GITHUB_ORG) \
+		GITHUB_TOKEN=$(GITHUB_TOKEN); then
+		exit 1; \
+	fi;
+	@if ! $(MAKE) --no-print-directory _apply_plan PARALLELISM=100; then \
+		exit 1; \
+	fi;
+	@if ! $(MAKE) --no-print-directory _destroy \
 		VAR_FILE=tests/test-01.tfvars \
 		GITHUB_ORG=$(GITHUB_ORG) \
-		GITHUB_TOKEN=$(GITHUB_TOKEN)
-	@$(MAKE) --no-print-directory _clean_all
+		GITHUB_TOKEN=$(GITHUB_TOKEN); then \
+		exit 1; \
+	fi;
+	@if ! $(MAKE) --no-print-directory _clean_all; then \
+		exit 1; \
+	fi;
 
 
 # -------------------------------------------------------------------------------------------------
@@ -152,7 +200,7 @@ _apply_plan:
 		apk add libc6-compat \
 		&& addgroup -g $(CURRENT_GID) user \
 		&& adduser -h /data -G user -u $(CURRENT_UID) -D -H user \
-		&& su -p -m user -c 'terraform apply -lock-timeout=$(LOCK_TIMEOUT) $(PLAN_FILE)'"
+		&& su -p -m user -c 'terraform apply -lock-timeout=$(LOCK_TIMEOUT) -parallelism=$(PARALLELISM) $(PLAN_FILE)'"
 
 
 ###
