@@ -8,7 +8,7 @@ teams = [
     description = "The DevOps Team"
     privacy     = "closed"
     parent_name = null
-    members     = ["cytopia"]
+    members     = ["flaconi-devops"]
   },
   # ------------------------------------------------------------
   # Engineering
