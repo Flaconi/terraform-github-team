@@ -23,6 +23,7 @@ CURRENT_GID := $(shell id -g)
 # Terraform configuration
 # -------------------------------------------------------------------------------------------------
 TF_VERSION   = 1.0.11
+TF_LOG       = WARN
 LOCK_TIMEOUT = 60s
 LOCK_FILE    = .terraform.lock.hcl
 PLAN_FILE    = .terraform.plan
@@ -69,22 +70,25 @@ test-01:
 	@echo "###"
 	@echo "####################################################################################################"
 	@echo "####################################################################################################"
-	@if ! $(MAKE) --no-print-directory _init; then \
+	@if ! $(MAKE) --no-print-directory _init TF_LOG=$(TF_LOG); then \
 		exit 1; \
 	fi;
 	@if ! $(MAKE) --no-print-directory _plan \
+		TF_LOG=$(TF_LOG) \
 		VAR_FILE=tests/test-01.tfvars \
 		GITHUB_ORG=$(GITHUB_ORG) \
 		GITHUB_TOKEN=$(GITHUB_TOKEN); then
 		exit 1; \
 	fi;
 	@if ! $(MAKE) --no-print-directory _apply_plan \
+		TF_LOG=$(TF_LOG) \
 		VAR_FILE=tests/test-01.tfvars \
 		GITHUB_ORG=$(GITHUB_ORG) \
 		GITHUB_TOKEN=$(GITHUB_TOKEN); then
 		exit 1; \
 	fi;
 	@if ! $(MAKE) --no-print-directory _destroy \
+		TF_LOG=$(TF_LOG) \
 		VAR_FILE=tests/test-01.tfvars \
 		GITHUB_ORG=$(GITHUB_ORG) \
 		GITHUB_TOKEN=$(GITHUB_TOKEN); then \
@@ -109,16 +113,18 @@ test-02:
 	@echo "###"
 	@echo "####################################################################################################"
 	@echo "####################################################################################################"
-	@if ! $(MAKE) --no-print-directory _init; then \
+	@if ! $(MAKE) --no-print-directory _init TF_LOG=$(TF_LOG); then \
 		exit 1; \
 	fi;
 	@if ! $(MAKE) --no-print-directory _plan \
+		TF_LOG=$(TF_LOG) \
 		VAR_FILE=tests/test-02.tfvars \
 		GITHUB_ORG=$(GITHUB_ORG) \
 		GITHUB_TOKEN=$(GITHUB_TOKEN); then
 		exit 1; \
 	fi;
 	@if ! $(MAKE) --no-print-directory _apply_plan \
+		TF_LOG=$(TF_LOG) \
 		PARALLELISM=100 \
 		VAR_FILE=tests/test-02.tfvars \
 		GITHUB_ORG=$(GITHUB_ORG) \
@@ -126,6 +132,7 @@ test-02:
 		exit 1; \
 	fi;
 	@if ! $(MAKE) --no-print-directory _destroy \
+		TF_LOG=$(TF_LOG) \
 		VAR_FILE=tests/test-01.tfvars \
 		GITHUB_ORG=$(GITHUB_ORG) \
 		GITHUB_TOKEN=$(GITHUB_TOKEN); then \
@@ -165,7 +172,7 @@ _destroy:
 		-w /data \
 		-e HOME=/data \
 		-e HOSTNAME=terraform \
-		-e TF_LOG=WARN \
+		-e TF_LOG=$(TF_LOG) \
 		--entrypoint=/bin/sh \
 		hashicorp/terraform:$(TF_VERSION) -c "\
 		apk add libc6-compat \
@@ -208,7 +215,7 @@ _apply_plan:
 		-w /data \
 		-e HOME=/data \
 		-e HOSTNAME=terraform \
-		-e TF_LOG=WARN \
+		-e TF_LOG=$(TF_LOG) \
 		--entrypoint=/bin/sh \
 		hashicorp/terraform:$(TF_VERSION) -c "\
 		apk add libc6-compat \
@@ -244,7 +251,7 @@ _plan:
 		-w /data \
 		-e HOME=/data \
 		-e HOSTNAME=terraform \
-		-e TF_LOG=WARN \
+		-e TF_LOG=$(TF_LOG) \
 		--entrypoint=/bin/sh \
 		hashicorp/terraform:$(TF_VERSION) -c "\
 		apk add libc6-compat \
@@ -280,7 +287,7 @@ _init:
 		-w /data \
 		-e HOME=/data \
 		-e HOSTNAME=terraform \
-		-e TF_LOG=WARN \
+		-e TF_LOG=$(TF_LOG) \
 		hashicorp/terraform:$(TF_VERSION) init \
 			-lock-timeout=$(LOCK_TIMEOUT)
 
