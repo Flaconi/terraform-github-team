@@ -7,7 +7,7 @@ terraform {
     # https://github.com/n0rad/terraform-provider-github
     github = {
       source  = "flaconi/github"
-      version = "4.19.1-fl.3"
+      version = "4.19.1-fl.4"
     }
   }
 }
