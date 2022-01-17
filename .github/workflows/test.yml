@@ -18,14 +18,14 @@ on:
 # What to run
 # -------------------------------------------------------------------------------------------------
 jobs:
-  test:
-    name: Test
+  # ------------------------------------------------------------
+  # Job-1
+  # ------------------------------------------------------------
+  job01:
+    name: Test-01
     runs-on: ubuntu-latest
     steps:
 
-      # ------------------------------------------------------------
-      # Checkout repository
-      # ------------------------------------------------------------
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
@@ -48,4 +48,36 @@ jobs:
           cd tests
           retry make test-01 GITHUB_ORG=flaconi-ci-github-teams GITHUB_TOKEN=${{ secrets.GH_FL_CI_TEAMS_TOKEN }}
         env:
-          RETRIES: 5
+          RETRIES: 1
+  # ------------------------------------------------------------
+  # Job-2
+  # ------------------------------------------------------------
+  job02:
+    needs: [job01]
+    name: Test-02
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: "Test 02"
+        run: |
+          retry() {
+            for n in $(seq ${RETRIES}); do
+              echo "[${n}/${RETRIES}] ${*}";
+              if eval "${*}"; then
+                echo "[SUCC] ${n}/${RETRIES}";
+                return 0;
+              fi;
+              sleep 2;
+              echo "[FAIL] ${n}/${RETRIES}";
+            done;
+            return 1;
+          }
+          cd tests
+          retry make test-02 GITHUB_ORG=flaconi-ci-github-teams GITHUB_TOKEN=${{ secrets.GH_FL_CI_TEAMS_TOKEN }}
+        env:
+          RETRIES: 1

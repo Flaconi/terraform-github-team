@@ -3,7 +3,7 @@ teams = [
   # DevOps
   # ------------------------------------------------------------
   {
-    ident       = "devops"
+    ident       = "0-devops"
     name        = "DevOps"
     description = "The DevOps Team"
     privacy     = "closed"
@@ -14,7 +14,7 @@ teams = [
   # Engineering
   # ------------------------------------------------------------
   {
-    ident       = "engineering"
+    ident       = "0-engineering"
     name        = "Engineering"
     description = "The Engineering Team"
     privacy     = "closed"
@@ -22,7 +22,7 @@ teams = [
     members     = []
   },
   {
-    ident       = "frontend"
+    ident       = "1-frontend"
     name        = "Frontend"
     description = "Team Frontend team"
     privacy     = "closed"
@@ -30,7 +30,7 @@ teams = [
     members     = []
   },
   {
-    ident       = "backend"
+    ident       = "1-backend"
     name        = "Backend"
     description = "Team Backend team"
     privacy     = "closed"

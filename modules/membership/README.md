@@ -6,13 +6,13 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_github"></a> [github](#requirement\_github) | 4.19.1-fl.1 |
+| <a name="requirement_github"></a> [github](#requirement\_github) | 4.19.1-fl.4 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_github"></a> [github](#provider\_github) | 4.19.1-fl.1 |
+| <a name="provider_github"></a> [github](#provider\_github) | 4.19.1-fl.4 |
 
 ## Modules
 
@@ -22,7 +22,7 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [github_team_membership.membership](https://registry.terraform.io/providers/flaconi/github/4.19.1-fl.1/docs/resources/team_membership) | resource |
+| [github_team_membership.membership](https://registry.terraform.io/providers/flaconi/github/4.19.1-fl.4/docs/resources/team_membership) | resource |
 
 ## Inputs
 
