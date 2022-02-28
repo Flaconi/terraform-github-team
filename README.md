@@ -5,7 +5,7 @@ Terraform module to create GitHub teams and team memberships.
 [![lint](https://github.com/flaconi/terraform-github-team/workflows/lint/badge.svg)](https://github.com/flaconi/terraform-github-team/actions?query=workflow%3Alint)
 [![test](https://github.com/flaconi/terraform-github-team/workflows/test/badge.svg)](https://github.com/flaconi/terraform-github-team/actions?query=workflow%3Atest)
 [![Tag](https://img.shields.io/github/tag/flaconi/terraform-github-team.svg)](https://github.com/flaconi/terraform-github-team/releases)
-
+[![Terraform](https://img.shields.io/badge/Terraform--registry-github--team-brightgreen.svg)](https://registry.terraform.io/modules/Flaconi/team/github/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 This module ships with a root module that allows you to create a list of teams (including child teams) and their corresponding association.
