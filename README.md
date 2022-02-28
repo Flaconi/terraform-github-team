@@ -112,18 +112,6 @@ No providers.
 
 The following input variables are required:
 
-### <a name="input_token"></a> [token](#input\_token)
-
-Description: Github token to be used for given organization to manage teams and their membership for.
-
-Type: `string`
-
-### <a name="input_owner"></a> [owner](#input\_owner)
-
-Description: Github organization name to manage teams and their membership for.
-
-Type: `string`
-
 ### <a name="input_teams"></a> [teams](#input\_teams)
 
 Description: GitHub teams to manage.

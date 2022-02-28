@@ -1,13 +1,3 @@
-variable "token" {
-  description = "Github token to be used for given organization to manage teams and their membership for."
-  type        = string
-}
-
-variable "owner" {
-  description = "Github organization name to manage teams and their membership for."
-  type        = string
-}
-
 variable "teams" {
   description = "GitHub teams to manage."
   type = list(object({
