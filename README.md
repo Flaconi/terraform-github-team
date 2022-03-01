@@ -47,9 +47,6 @@ The following has been extensively tested with this module
 ## Example `terraform.tfvars`
 
 ```hcl
-token = "<REDACTED>"
-owner = "<ORGANIZATION-NAME>"
-
 teams = [
   {
     ident       = "devops"   # The 'ident' is a unique ident to allow restructuring without team re-creation
@@ -83,6 +80,7 @@ teams = [
     parent_name = "Engineering"
     members     = []
   },
+]
 ```
 
 <!-- TFDOCS_HEADER_START -->
