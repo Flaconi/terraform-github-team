@@ -47,9 +47,6 @@ The following has been extensively tested with this module
 ## Example `terraform.tfvars`
 
 ```hcl
-token = "<REDACTED>"
-owner = "<ORGANIZATION-NAME>"
-
 teams = [
   {
     ident       = "devops"   # The 'ident' is a unique ident to allow restructuring without team re-creation
@@ -83,6 +80,7 @@ teams = [
     parent_name = "Engineering"
     members     = []
   },
+]
 ```
 
 <!-- TFDOCS_HEADER_START -->
@@ -111,18 +109,6 @@ No providers.
 ## Required Inputs
 
 The following input variables are required:
-
-### <a name="input_token"></a> [token](#input\_token)
-
-Description: Github token to be used for given organization to manage teams and their membership for.
-
-Type: `string`
-
-### <a name="input_owner"></a> [owner](#input\_owner)
-
-Description: Github organization name to manage teams and their membership for.
-
-Type: `string`
 
 ### <a name="input_teams"></a> [teams](#input\_teams)
 
