@@ -1,3 +1,13 @@
+variable "token" {
+  description = "Github token to be used for given organization to manage teams and their membership for."
+  type        = string
+}
+
+variable "owner" {
+  description = "Github organization name to manage teams and their membership for."
+  type        = string
+}
+
 variable "teams" {
   description = "GitHub teams to manage."
   type = list(object({
@@ -8,4 +18,20 @@ variable "teams" {
     parent_name = string       # Name of the Parent team (must also be defined)
     members     = list(string) # List of GitHub usernames to assign to a team
   }))
+}
+
+provider "github" {
+  token = var.token
+  owner = var.owner
+}
+
+module "teams" {
+  source = "../"
+
+  teams = var.teams
+}
+
+output "teams" {
+  description = "GitHub teams."
+  value       = module.teams.teams
 }
