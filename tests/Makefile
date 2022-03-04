@@ -287,7 +287,6 @@ _init:
 		$(MAKE) --no-print-directory _clean_init
 	}
 	mkdir -p $(CURRENT_DIR)../.terraform.d
-	cp -f backend.tf ../backend.tf
 	trap cleanUp ERR
 	docker run \
 		$$(tty -s && echo "-it" || echo) \
@@ -328,7 +327,6 @@ _clean_all:
 ###
 .PHONY: _clean_init
 _clean_init:
-	if test -f ../backend.tf; then rm ../backend.tf; fi
 	if test -f ../$(LOCK_FILE); then rm ../$(LOCK_FILE); fi
 	if test -d ../.terraform; then rm -rf ../.terraform; fi
 	if test -d ../.terraform.d; then rm -rf ../.terraform.d; fi
