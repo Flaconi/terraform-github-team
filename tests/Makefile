@@ -255,7 +255,7 @@ _plan:
 		--rm \
 		-v "$(CURRENT_DIR)../:/data" \
 		-w /data/tests \
-    -e AWS_ACCESS_KEY_ID \
+                -e AWS_ACCESS_KEY_ID \
 		-e AWS_SECRET_ACCESS_KEY \
 		-e AWS_DEFAULT_REGION \
 		-e HOME=/data/tests \
