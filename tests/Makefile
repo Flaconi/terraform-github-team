@@ -170,6 +170,9 @@ _destroy:
 		--rm \
 		-v "$(CURRENT_DIR)../:/data" \
 		-w /data/tests \
+		-e AWS_ACCESS_KEY_ID \
+		-e AWS_SECRET_ACCESS_KEY \
+		-e AWS_DEFAULT_REGION \
 		-e HOME=/data/tests \
 		-e HOSTNAME=terraform \
 		-e TF_LOG=$(TF_LOG) \
@@ -213,6 +216,9 @@ _apply_plan:
 		--rm \
 		-v "$(CURRENT_DIR)../:/data" \
 		-w /data/tests \
+		-e AWS_ACCESS_KEY_ID \
+		-e AWS_SECRET_ACCESS_KEY \
+		-e AWS_DEFAULT_REGION \
 		-e HOME=/data/tests \
 		-e HOSTNAME=terraform \
 		-e TF_LOG=$(TF_LOG) \
@@ -249,6 +255,9 @@ _plan:
 		--rm \
 		-v "$(CURRENT_DIR)../:/data" \
 		-w /data/tests \
+                -e AWS_ACCESS_KEY_ID \
+		-e AWS_SECRET_ACCESS_KEY \
+		-e AWS_DEFAULT_REGION \
 		-e HOME=/data/tests \
 		-e HOSTNAME=terraform \
 		-e TF_LOG=$(TF_LOG) \
@@ -285,6 +294,9 @@ _init:
 		-u $$(id -u):$$(id -g) \
 		-v "$(CURRENT_DIR)../:/data" \
 		-w /data/tests \
+		-e AWS_ACCESS_KEY_ID \
+		-e AWS_SECRET_ACCESS_KEY \
+		-e AWS_DEFAULT_REGION \
 		-e HOME=/data/tests \
 		-e HOSTNAME=terraform \
 		-e TF_LOG=$(TF_LOG) \
