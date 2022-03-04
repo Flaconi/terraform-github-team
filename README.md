@@ -5,7 +5,7 @@ Terraform module to create GitHub teams and team memberships.
 [![lint](https://github.com/flaconi/terraform-github-team/workflows/lint/badge.svg)](https://github.com/flaconi/terraform-github-team/actions?query=workflow%3Alint)
 [![test](https://github.com/flaconi/terraform-github-team/workflows/test/badge.svg)](https://github.com/flaconi/terraform-github-team/actions?query=workflow%3Atest)
 [![Tag](https://img.shields.io/github/tag/flaconi/terraform-github-team.svg)](https://github.com/flaconi/terraform-github-team/releases)
-
+[![Terraform](https://img.shields.io/badge/Terraform--registry-github--team-brightgreen.svg)](https://registry.terraform.io/modules/Flaconi/team/github/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 This module ships with a root module that allows you to create a list of teams (including child teams) and their corresponding association.
@@ -47,9 +47,6 @@ The following has been extensively tested with this module
 ## Example `terraform.tfvars`
 
 ```hcl
-token = "<REDACTED>"
-owner = "<ORGANIZATION-NAME>"
-
 teams = [
   {
     ident       = "devops"   # The 'ident' is a unique ident to allow restructuring without team re-creation
@@ -83,6 +80,7 @@ teams = [
     parent_name = "Engineering"
     members     = []
   },
+]
 ```
 
 <!-- TFDOCS_HEADER_START -->
@@ -111,18 +109,6 @@ No providers.
 ## Required Inputs
 
 The following input variables are required:
-
-### <a name="input_token"></a> [token](#input\_token)
-
-Description: Github token to be used for given organization to manage teams and their membership for.
-
-Type: `string`
-
-### <a name="input_owner"></a> [owner](#input\_owner)
-
-Description: Github organization name to manage teams and their membership for.
-
-Type: `string`
 
 ### <a name="input_teams"></a> [teams](#input\_teams)
 

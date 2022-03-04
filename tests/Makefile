@@ -75,21 +75,21 @@ test-01:
 	fi;
 	@if ! $(MAKE) --no-print-directory _plan \
 		TF_LOG=$(TF_LOG) \
-		VAR_FILE=tests/test-01.tfvars \
+		VAR_FILE=test-01.tfvars \
 		GITHUB_ORG=$(GITHUB_ORG) \
 		GITHUB_TOKEN=$(GITHUB_TOKEN); then
 		exit 1; \
 	fi;
 	@if ! $(MAKE) --no-print-directory _apply_plan \
 		TF_LOG=$(TF_LOG) \
-		VAR_FILE=tests/test-01.tfvars \
+		VAR_FILE=test-01.tfvars \
 		GITHUB_ORG=$(GITHUB_ORG) \
 		GITHUB_TOKEN=$(GITHUB_TOKEN); then
 		exit 1; \
 	fi;
 	@if ! $(MAKE) --no-print-directory _destroy \
 		TF_LOG=$(TF_LOG) \
-		VAR_FILE=tests/test-01.tfvars \
+		VAR_FILE=test-01.tfvars \
 		GITHUB_ORG=$(GITHUB_ORG) \
 		GITHUB_TOKEN=$(GITHUB_TOKEN); then \
 		exit 1; \
@@ -118,7 +118,7 @@ test-02:
 	fi;
 	@if ! $(MAKE) --no-print-directory _plan \
 		TF_LOG=$(TF_LOG) \
-		VAR_FILE=tests/test-02.tfvars \
+		VAR_FILE=test-02.tfvars \
 		GITHUB_ORG=$(GITHUB_ORG) \
 		GITHUB_TOKEN=$(GITHUB_TOKEN); then
 		exit 1; \
@@ -126,14 +126,14 @@ test-02:
 	@if ! $(MAKE) --no-print-directory _apply_plan \
 		TF_LOG=$(TF_LOG) \
 		PARALLELISM=100 \
-		VAR_FILE=tests/test-02.tfvars \
+		VAR_FILE=test-02.tfvars \
 		GITHUB_ORG=$(GITHUB_ORG) \
 		GITHUB_TOKEN=$(GITHUB_TOKEN); then
 		exit 1; \
 	fi;
 	@if ! $(MAKE) --no-print-directory _destroy \
 		TF_LOG=$(TF_LOG) \
-		VAR_FILE=tests/test-01.tfvars \
+		VAR_FILE=test-02.tfvars \
 		GITHUB_ORG=$(GITHUB_ORG) \
 		GITHUB_TOKEN=$(GITHUB_TOKEN); then \
 		exit 1; \
@@ -169,18 +169,18 @@ _destroy:
 		$$(tty -s && echo "-it" || echo) \
 		--rm \
 		-v "$(CURRENT_DIR)../:/data" \
-		-w /data \
+		-w /data/tests \
 		-e AWS_ACCESS_KEY_ID \
 		-e AWS_SECRET_ACCESS_KEY \
 		-e AWS_DEFAULT_REGION \
-		-e HOME=/data \
+		-e HOME=/data/tests \
 		-e HOSTNAME=terraform \
 		-e TF_LOG=$(TF_LOG) \
 		--entrypoint=/bin/sh \
 		hashicorp/terraform:$(TF_VERSION) -c "\
 		apk add libc6-compat \
 		&& addgroup -g $(CURRENT_GID) user \
-		&& adduser -h /data -G user -u $(CURRENT_UID) -D -H user \
+		&& adduser -h /data/tests -G user -u $(CURRENT_UID) -D -H user \
 		&& su -p -m user -c 'terraform destroy \
 			-auto-approve \
 			-var-file=$(VAR_FILE) \
@@ -215,18 +215,18 @@ _apply_plan:
 		$$(tty -s && echo "-it" || echo) \
 		--rm \
 		-v "$(CURRENT_DIR)../:/data" \
-		-w /data \
+		-w /data/tests \
 		-e AWS_ACCESS_KEY_ID \
 		-e AWS_SECRET_ACCESS_KEY \
 		-e AWS_DEFAULT_REGION \
-		-e HOME=/data \
+		-e HOME=/data/tests \
 		-e HOSTNAME=terraform \
 		-e TF_LOG=$(TF_LOG) \
 		--entrypoint=/bin/sh \
 		hashicorp/terraform:$(TF_VERSION) -c "\
 		apk add libc6-compat \
 		&& addgroup -g $(CURRENT_GID) user \
-		&& adduser -h /data -G user -u $(CURRENT_UID) -D -H user \
+		&& adduser -h /data/tests -G user -u $(CURRENT_UID) -D -H user \
 		&& su -p -m user -c 'terraform apply \
 			-auto-approve \
 			-lock-timeout=$(LOCK_TIMEOUT) \
@@ -254,18 +254,18 @@ _plan:
 		$$(tty -s && echo "-it" || echo) \
 		--rm \
 		-v "$(CURRENT_DIR)../:/data" \
-		-w /data \
-		-e AWS_ACCESS_KEY_ID \
+		-w /data/tests \
+    -e AWS_ACCESS_KEY_ID \
 		-e AWS_SECRET_ACCESS_KEY \
 		-e AWS_DEFAULT_REGION \
-		-e HOME=/data \
+		-e HOME=/data/tests \
 		-e HOSTNAME=terraform \
 		-e TF_LOG=$(TF_LOG) \
 		--entrypoint=/bin/sh \
 		hashicorp/terraform:$(TF_VERSION) -c "\
 		apk add libc6-compat \
 		&& addgroup -g $(CURRENT_GID) user \
-		&& adduser -h /data -G user -u $(CURRENT_UID) -D -H user \
+		&& adduser -h /data/tests -G user -u $(CURRENT_UID) -D -H user \
 		&& su -p -m user -c 'terraform plan \
 			-var-file=$(VAR_FILE) \
 			-var \"owner=$(GITHUB_ORG)\" \
@@ -294,11 +294,11 @@ _init:
 		--rm \
 		-u $$(id -u):$$(id -g) \
 		-v "$(CURRENT_DIR)../:/data" \
-		-w /data \
+		-w /data/tests \
 		-e AWS_ACCESS_KEY_ID \
 		-e AWS_SECRET_ACCESS_KEY \
 		-e AWS_DEFAULT_REGION \
-		-e HOME=/data \
+		-e HOME=/data/tests \
 		-e HOSTNAME=terraform \
 		-e TF_LOG=$(TF_LOG) \
 		hashicorp/terraform:$(TF_VERSION) init \
