@@ -12,13 +12,17 @@ This module ships with a root module that allows you to create a list of teams (
 You can however also just use the bundled sub-modules and wrap your own root module around.
 
 
-## Important
+## Important notice
 
 The following must be taken into consideration for initial creation or on re-creation (update operations are not affected):
 
 1. This module will not work when using `terraform apply -parallelism=1`. It must be run in parallel (as is by default).
 2. When you have a lot of teams (>50) including multiple nesting levels (>2), it is strongly advised to bump parallelism to a higher value: `terraform apply -parallelism=50` to avoid child teams not being able to find parents.
 3. If an increase in parallelism still does not help, you should first define and apply parent teams and then continue with each level. Alternatively you can apply multiple times until it will eventually succeed.
+
+:warning: This module uses experimental optional attributes.
+
+More about it [here](https://www.terraform.io/language/expressions/type-constraints#experimental-optional-object-type-attributes).
 
 
 ## Features
@@ -118,12 +122,12 @@ Type:
 
 ```hcl
 list(object({
-    ident       = string       # Unique identifier for each item to guarantee no re-create during list change
-    name        = string       # Name of the team as displayed on GitHub
-    description = string       # Description of the team
-    privacy     = string       # Privacy (closed or secret)
-    parent_name = string       # Name of the Parent team (must also be defined)
-    members     = list(string) # List of GitHub usernames to assign to a team
+    ident       = string                 # Unique identifier for each item to guarantee no re-create during list change
+    name        = string                 # Name of the team as displayed on GitHub
+    description = optional(string)       # Description of the team
+    privacy     = optional(string)       # Privacy (closed or secret), default is closed
+    parent_name = optional(string)       # Name of the Parent team
+    members     = optional(list(string)) # List of GitHub usernames to assign to a team
   }))
 ```
 
