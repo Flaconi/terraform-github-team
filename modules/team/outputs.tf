@@ -8,6 +8,11 @@ output "id" {
   value       = github_team.team.id
 }
 
+output "node_id" {
+  description = "GitHub team node_id"
+  value       = github_team.team.node_id
+}
+
 output "slug" {
   description = "GitHub team slug"
   value       = github_team.team.slug
