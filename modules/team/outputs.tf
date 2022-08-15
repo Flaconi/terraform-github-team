@@ -8,6 +8,11 @@ output "id" {
   value       = github_team.team.id
 }
 
+output "node_id" {
+  description = "This is internal hashed id used by GitHub internally for teams."
+  value       = github_team.team.node_id
+}
+
 output "slug" {
   description = "GitHub team slug"
   value       = github_team.team.slug
