@@ -41,7 +41,7 @@ No modules.
 |------|-------------|
 | <a name="output_name"></a> [name](#output\_name) | GitHub team name |
 | <a name="output_id"></a> [id](#output\_id) | GitHub team id |
-| <a name="output_node_id"></a> [node\_id](#output\_node\_id) | GitHub team node\_id |
+| <a name="output_node_id"></a> [node\_id](#output\_node\_id) | This is internal hashed id used by GitHub internally for teams. |
 | <a name="output_slug"></a> [slug](#output\_slug) | GitHub team slug |
 | <a name="output_parent"></a> [parent](#output\_parent) | GitHub parent team |
 | <a name="output_privacy"></a> [privacy](#output\_privacy) | GitHub team privacy |
