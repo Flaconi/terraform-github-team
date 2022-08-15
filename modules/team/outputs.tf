@@ -9,7 +9,7 @@ output "id" {
 }
 
 output "node_id" {
-  description = "GitHub team node_id"
+  description = "This is internal hashed id used by GitHub internally for teams."
   value       = github_team.team.node_id
 }
 
