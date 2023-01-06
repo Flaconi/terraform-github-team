@@ -22,7 +22,7 @@ CURRENT_GID := $(shell id -g)
 # -------------------------------------------------------------------------------------------------
 # Terraform configuration
 # -------------------------------------------------------------------------------------------------
-TF_VERSION   = 1.0.11
+TF_VERSION   = 1.2.9
 TF_LOG       = WARN
 LOCK_TIMEOUT = 60s
 LOCK_FILE    = .terraform.lock.hcl
@@ -176,17 +176,12 @@ _destroy:
 		-e HOME=/data/tests \
 		-e HOSTNAME=terraform \
 		-e TF_LOG=$(TF_LOG) \
-		--entrypoint=/bin/sh \
-		hashicorp/terraform:$(TF_VERSION) -c "\
-		apk add libc6-compat \
-		&& addgroup -g $(CURRENT_GID) user \
-		&& adduser -h /data/tests -G user -u $(CURRENT_UID) -D -H user \
-		&& su -p -m user -c 'terraform destroy \
+		hashicorp/terraform:$(TF_VERSION) destroy \
 			-auto-approve \
 			-var-file=$(VAR_FILE) \
-			-var \"owner=$(GITHUB_ORG)\" \
-			-var \"token=$(GITHUB_TOKEN)\" \
-			-lock-timeout=$(LOCK_TIMEOUT)'"
+			-var "owner=$(GITHUB_ORG)" \
+			-var "token=$(GITHUB_TOKEN)" \
+			-lock-timeout=$(LOCK_TIMEOUT)
 
 
 ###
@@ -222,15 +217,10 @@ _apply_plan:
 		-e HOME=/data/tests \
 		-e HOSTNAME=terraform \
 		-e TF_LOG=$(TF_LOG) \
-		--entrypoint=/bin/sh \
-		hashicorp/terraform:$(TF_VERSION) -c "\
-		apk add libc6-compat \
-		&& addgroup -g $(CURRENT_GID) user \
-		&& adduser -h /data/tests -G user -u $(CURRENT_UID) -D -H user \
-		&& su -p -m user -c 'terraform apply \
+		hashicorp/terraform:$(TF_VERSION) apply \
 			-auto-approve \
 			-lock-timeout=$(LOCK_TIMEOUT) \
-			-parallelism=$(PARALLELISM) $(PLAN_FILE)'"
+			-parallelism=$(PARALLELISM) $(PLAN_FILE)
 
 
 ###
@@ -255,23 +245,18 @@ _plan:
 		--rm \
 		-v "$(CURRENT_DIR)../:/data" \
 		-w /data/tests \
-                -e AWS_ACCESS_KEY_ID \
+    -e AWS_ACCESS_KEY_ID \
 		-e AWS_SECRET_ACCESS_KEY \
 		-e AWS_DEFAULT_REGION \
 		-e HOME=/data/tests \
 		-e HOSTNAME=terraform \
 		-e TF_LOG=$(TF_LOG) \
-		--entrypoint=/bin/sh \
-		hashicorp/terraform:$(TF_VERSION) -c "\
-		apk add libc6-compat \
-		&& addgroup -g $(CURRENT_GID) user \
-		&& adduser -h /data/tests -G user -u $(CURRENT_UID) -D -H user \
-		&& su -p -m user -c 'terraform plan \
+		hashicorp/terraform:$(TF_VERSION) plan \
 			-var-file=$(VAR_FILE) \
-			-var \"owner=$(GITHUB_ORG)\" \
-			-var \"token=$(GITHUB_TOKEN)\" \
+			-var "owner=$(GITHUB_ORG)" \
+			-var "token=$(GITHUB_TOKEN)" \
 			-lock-timeout=$(LOCK_TIMEOUT) \
-			-out=$(PLAN_FILE)'"
+			-out=$(PLAN_FILE)
 
 
 ###
