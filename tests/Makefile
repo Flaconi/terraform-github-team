@@ -177,16 +177,18 @@ _destroy:
 		-e HOSTNAME=terraform \
 		-e TF_LOG=$(TF_LOG) \
 		--entrypoint=/bin/sh \
-		hashicorp/terraform:$(TF_VERSION) -c "\
+		hashicorp/terraform:$(TF_VERSION) -c '\
 		apk add libc6-compat \
-		&& (addgroup -g $(CURRENT_GID) user || true) \
-		&& (adduser -h /data/tests -G user -u $(CURRENT_UID) -D -H user || true) \
-		&& su -p -m user -c 'terraform destroy \
+		&& (deluser  $$(grep "x:$(CURRENT_UID):" /etc/passwd | sed "s/:.*//g") || true) \
+		&& (delgroup $$(grep "x:$(CURRENT_GID):" /etc/group  | sed "s/:.*//g") || true) \
+		&& addgroup -g $(CURRENT_GID) user \
+		&& adduser -h /data/tests -G user -u $(CURRENT_UID) -D -H user \
+		&& su -p -m user -c "terraform destroy \
 			-auto-approve \
 			-var-file=$(VAR_FILE) \
 			-var \"owner=$(GITHUB_ORG)\" \
 			-var \"token=$(GITHUB_TOKEN)\" \
-			-lock-timeout=$(LOCK_TIMEOUT)'"
+			-lock-timeout=$(LOCK_TIMEOUT)"'
 
 
 ###
@@ -223,14 +225,16 @@ _apply_plan:
 		-e HOSTNAME=terraform \
 		-e TF_LOG=$(TF_LOG) \
 		--entrypoint=/bin/sh \
-		hashicorp/terraform:$(TF_VERSION) -c "\
+		hashicorp/terraform:$(TF_VERSION) -c '\
 		apk add libc6-compat \
-		&& (addgroup -g $(CURRENT_GID) user || true) \
-		&& (adduser -h /data/tests -G user -u $(CURRENT_UID) -D -H user || true) \
-		&& su -p -m user -c 'terraform apply \
+		&& (deluser  $$(grep "x:$(CURRENT_UID):" /etc/passwd | sed "s/:.*//g") || true) \
+		&& (delgroup $$(grep "x:$(CURRENT_GID):" /etc/group  | sed "s/:.*//g") || true) \
+		&& addgroup -g $(CURRENT_GID) user \
+		&& adduser -h /data/tests -G user -u $(CURRENT_UID) -D -H user \
+		&& su -p -m user -c "terraform apply \
 			-auto-approve \
 			-lock-timeout=$(LOCK_TIMEOUT) \
-			-parallelism=$(PARALLELISM) $(PLAN_FILE)'"
+			-parallelism=$(PARALLELISM) $(PLAN_FILE)"'
 
 
 ###
@@ -262,16 +266,18 @@ _plan:
 		-e HOSTNAME=terraform \
 		-e TF_LOG=$(TF_LOG) \
 		--entrypoint=/bin/sh \
-		hashicorp/terraform:$(TF_VERSION) -c "\
+		hashicorp/terraform:$(TF_VERSION) -c '\
 		apk add libc6-compat \
-		&& (addgroup -g $(CURRENT_GID) user || true) \
-		&& (adduser -h /data/tests -G user -u $(CURRENT_UID) -D -H user || true) \
-		&& su -p -m user -c 'terraform plan \
+		&& (deluser  $$(grep "x:$(CURRENT_UID):" /etc/passwd | sed "s/:.*//g") || true) \
+		&& (delgroup $$(grep "x:$(CURRENT_GID):" /etc/group  | sed "s/:.*//g") || true) \
+		&& addgroup -g $(CURRENT_GID) user \
+		&& adduser -h /data/tests -G user -u $(CURRENT_UID) -D -H user \
+		&& su -p -m user -c "terraform plan \
 			-var-file=$(VAR_FILE) \
 			-var \"owner=$(GITHUB_ORG)\" \
 			-var \"token=$(GITHUB_TOKEN)\" \
 			-lock-timeout=$(LOCK_TIMEOUT) \
-			-out=$(PLAN_FILE)'"
+			-out=$(PLAN_FILE)"'
 
 
 ###
