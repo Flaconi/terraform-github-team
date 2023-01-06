@@ -179,8 +179,8 @@ _destroy:
 		--entrypoint=/bin/sh \
 		hashicorp/terraform:$(TF_VERSION) -c "\
 		apk add libc6-compat \
-		&& addgroup -g $(CURRENT_GID) user \
-		&& adduser -h /data/tests -G user -u $(CURRENT_UID) -D -H user \
+		&& (addgroup -g $(CURRENT_GID) user || true) \
+		&& (adduser -h /data/tests -G user -u $(CURRENT_UID) -D -H user || true) \
 		&& su -p -m user -c 'terraform destroy \
 			-auto-approve \
 			-var-file=$(VAR_FILE) \
@@ -225,8 +225,8 @@ _apply_plan:
 		--entrypoint=/bin/sh \
 		hashicorp/terraform:$(TF_VERSION) -c "\
 		apk add libc6-compat \
-		&& addgroup -g $(CURRENT_GID) user \
-		&& adduser -h /data/tests -G user -u $(CURRENT_UID) -D -H user \
+		&& (addgroup -g $(CURRENT_GID) user || true) \
+		&& (adduser -h /data/tests -G user -u $(CURRENT_UID) -D -H user || true) \
 		&& su -p -m user -c 'terraform apply \
 			-auto-approve \
 			-lock-timeout=$(LOCK_TIMEOUT) \
@@ -264,8 +264,8 @@ _plan:
 		--entrypoint=/bin/sh \
 		hashicorp/terraform:$(TF_VERSION) -c "\
 		apk add libc6-compat \
-		&& addgroup -g $(CURRENT_GID) user \
-		&& adduser -h /data/tests -G user -u $(CURRENT_UID) -D -H user \
+		&& (addgroup -g $(CURRENT_GID) user || true) \
+		&& (adduser -h /data/tests -G user -u $(CURRENT_UID) -D -H user || true) \
 		&& su -p -m user -c 'terraform plan \
 			-var-file=$(VAR_FILE) \
 			-var \"owner=$(GITHUB_ORG)\" \
