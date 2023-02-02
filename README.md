@@ -104,7 +104,7 @@ No providers.
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
 | <a name="requirement_github"></a> [github](#requirement\_github) | 5.13.0-fl.1 |
 
 <!-- TFDOCS_REQUIREMENTS_END -->
@@ -122,12 +122,12 @@ Type:
 
 ```hcl
 list(object({
-    ident       = string                 # Unique identifier for each item to guarantee no re-create during list change
-    name        = string                 # Name of the team as displayed on GitHub
-    description = optional(string)       # Description of the team
-    privacy     = optional(string)       # Privacy (closed or secret), default is closed
-    parent_name = optional(string)       # Name of the Parent team
-    members     = optional(list(string)) # List of GitHub usernames to assign to a team
+    ident       = string                     # Unique identifier for each item to guarantee no re-create during list change
+    name        = string                     # Name of the team as displayed on GitHub
+    description = optional(string)           # Description of the team
+    privacy     = optional(string, "closed") # Privacy (closed or secret), default is closed
+    parent_name = optional(string)           # Name of the Parent team
+    members     = optional(list(string), []) # List of GitHub usernames to assign to a team
   }))
 ```
 
