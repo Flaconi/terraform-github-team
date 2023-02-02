@@ -1,6 +1,5 @@
 terraform {
-  experiments      = [module_variable_optional_attrs]
-  required_version = ">= 1.0"
+  required_version = ">= 1.3"
   required_providers {
     # https://github.com/integrations/terraform-provider-github
     # https://github.com/flaconi/terraform-provider-github
