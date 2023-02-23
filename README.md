@@ -54,33 +54,26 @@ teams = [
     ident       = "devops"   # The 'ident' is a unique ident to allow restructuring without team re-creation
     name        = "DevOps"
     description = "The DevOps Team"
-    privacy     = "closed"
-    parent_name = null
+    privacy     = "secret"
     members     = ["cytopia"]
   },
   {
     ident       = "engineering"
     name        = "Engineering"
     description = "The Engineering Team"
-    privacy     = "closed"
-    parent_name = null
     members     = ["cytopia"]
   },
   {
     ident       = "frontend"
     name        = "Frontend"
     description = "Team Frontend"
-    privacy     = "closed"
     parent_name = "Engineering"
-    members     = []
   },
   {
     ident       = "backend"
     name        = "Backend"
     description = "Team Backend"
-    privacy     = "closed"
     parent_name = "Engineering"
-    members     = []
   },
 ]
 ```
