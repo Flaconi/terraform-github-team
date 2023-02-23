@@ -20,7 +20,7 @@ The following must be taken into consideration for initial creation or on re-cre
 2. When you have a lot of teams (>50) including multiple nesting levels (>2), it is strongly advised to bump parallelism to a higher value: `terraform apply -parallelism=50` to avoid child teams not being able to find parents.
 3. If an increase in parallelism still does not help, you should first define and apply parent teams and then continue with each level. Alternatively you can apply multiple times until it will eventually succeed.
 
-:warning: This module uses [fork](https://github.com/Flaconi/terraform-provider-github) of official Terraform GitHub provider.
+:warning: This module uses a [fork](https://github.com/Flaconi/terraform-provider-github) of official Terraform GitHub provider.
 
 
 ## Features
@@ -54,33 +54,26 @@ teams = [
     ident       = "devops"   # The 'ident' is a unique ident to allow restructuring without team re-creation
     name        = "DevOps"
     description = "The DevOps Team"
-    privacy     = "closed"
-    parent_name = null
+    privacy     = "secret"
     members     = ["cytopia"]
   },
   {
     ident       = "engineering"
     name        = "Engineering"
     description = "The Engineering Team"
-    privacy     = "closed"
-    parent_name = null
     members     = ["cytopia"]
   },
   {
     ident       = "frontend"
     name        = "Frontend"
     description = "Team Frontend"
-    privacy     = "closed"
     parent_name = "Engineering"
-    members     = []
   },
   {
     ident       = "backend"
     name        = "Backend"
     description = "Team Backend"
-    privacy     = "closed"
     parent_name = "Engineering"
-    members     = []
   },
 ]
 ```
