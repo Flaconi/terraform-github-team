@@ -96,7 +96,7 @@ No providers.
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
-| <a name="requirement_github"></a> [github](#requirement\_github) | 5.13.0-fl.1 |
+| <a name="requirement_github"></a> [github](#requirement\_github) | 5.18.0-fl.2 |
 
 <!-- TFDOCS_REQUIREMENTS_END -->
 
