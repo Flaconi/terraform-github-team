@@ -166,6 +166,7 @@ _destroy:
 	mkdir -p $(CURRENT_DIR)../.terraform.d
 	trap cleanUp ERR
 	docker run \
+    --network host \
 		$$(tty -s && echo "-it" || echo) \
 		--rm \
 		-v "$(CURRENT_DIR)../:/data" \
@@ -207,6 +208,7 @@ _apply_plan:
 	mkdir -p $(CURRENT_DIR)../.terraform.d
 	trap cleanUp ERR
 	docker run \
+    --network host \
 		$$(tty -s && echo "-it" || echo) \
 		--rm \
 		-v "$(CURRENT_DIR)../:/data" \
@@ -241,6 +243,7 @@ _plan:
 	mkdir -p $(CURRENT_DIR)../.terraform.d
 	trap cleanUp ERR
 	docker run \
+	  --network host \
 		$$(tty -s && echo "-it" || echo) \
 		--rm \
 		-v "$(CURRENT_DIR)../:/data" \
@@ -274,6 +277,7 @@ _init:
 	mkdir -p $(CURRENT_DIR)../.terraform.d
 	trap cleanUp ERR
 	docker run \
+	  --network host \
 		$$(tty -s && echo "-it" || echo) \
 		--rm \
 		-u $$(id -u):$$(id -g) \

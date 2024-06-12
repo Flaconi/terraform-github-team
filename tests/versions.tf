@@ -3,7 +3,7 @@ terraform {
   required_providers {
     github = {
       source  = "flaconi/github"
-      version = "5.18.0-fl.2"
+      version = "5.45.0-fl.1"
     }
   }
 }
