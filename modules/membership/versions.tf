@@ -6,7 +6,7 @@ terraform {
     # https://github.com/n0rad/terraform-provider-github
     github = {
       source  = "flaconi/github"
-      version = "6.2.1-fl.1"
+      version = "6.4.0-fl.1"
     }
   }
 }
