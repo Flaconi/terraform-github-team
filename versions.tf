@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.3"
+  required_version = ">= 1.11"
   required_providers {
     # https://github.com/integrations/terraform-provider-github
     # https://github.com/flaconi/terraform-provider-github
